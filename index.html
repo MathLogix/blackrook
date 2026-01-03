@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>BlackRook Text Encoder</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: sans-serif;
+      background: #0f0f0f;
+      color: #eaeaea;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 20px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+            min-height: 80vh; 
+    }
+
+    .textarea-wrapper {
+      position: relative;
+      margin-bottom: -5px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+      background: #1a1a1a;
+      color: #fff;
+      border: 1px solid #333;
+      padding: 10px;
+      resize: none;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      background: #1a1a1a;
+      color: #fff;
+      border: 1px solid #333;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 0 5px;
+      background: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #555;
+    }
+
+    h3 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .container h3:first-of-type {
+      margin-top: -10px;
+    }
+
+    .logo-box {
+      position: absolute;
+      top: 20px;
+      left: 40px;
+      height: 80px;
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-box img {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .second-logo {
+      position: absolute;
+      top: 120px;
+        left: 40px;
+        display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .second-logo img {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .second-logo .logo-text {
+      margin-top: 4px;
+      color: #eaeaea;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .light-theme .second-logo .logo-text {
+      color: #000;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #28235E;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 30px;
+      width: 30px;
+      left: -3px;
+      bottom: -3px;
+      background-color: #fff;
+      background-image: url('Night.png');
+            background-size: cover;
+      background-position: center;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    .switch input:checked + .slider {
+    }
+
+    .switch input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .light-theme {
+      background: #f0f0f0;
+      color: #0f0f0f;
+    }
+
+    .light-theme textarea,
+    .light-theme input {
+      background: #fff;
+      color: #000;
+      border: 1px solid #999;
+    }
+
+    .light-theme button {
+      background: #ddd;
+      color: #000;
+    }
+
+    .light-theme button:hover {
+      background: #bbb;
+    }
+
+    .light-theme .slider {
+      background-color: #FECE00;
+    }
+
+    .light-theme .slider:before {
+      background-image: url('Day.png');
+    }
+
+    .footer-text {
+      position: fixed;
+      bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+      text-align: center;
+     }
+
+    .tooltip-container {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+           pointer-events: auto;
+     }
+
+    .tooltip-text {
+      visibility: hidden;
+      width: 250px;
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      padding: 8px 10px;
+      border-radius: 6px;
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 10;
+      font-size: 13px;
+      line-height: 1.4;
+     }
+
+    .tooltip-container:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+     }
+
+    .light-theme .tooltip-text {
+      background-color: #f1c40f;
+      color: #000;
+     }
+
+    .copy-btn {
+      position: absolute;
+      top: 0px;
+      right: 5px;
+      padding: 4px 6px;
+      font-size: 18px;
+      background: #555;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #777;
+    }
+
+    .light-theme .copy-btn {
+      background: #999;
+      color: #000;
+    }
+
+    .light-theme .copy-btn:hover {
+      background: #bbb;
+    }
+
+    .copied-tooltip {
+      position: absolute;
+      top: -25px;
+      right: 0;
+      background: #4caf50;
+      color: #fff;
+      padding: 3px 6px;
+      font-size: 12px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .copied-tooltip.show {
+      opacity: 1;
+    }
+
+    .char-counter {
+      position: absolute;
+      top: 0px;
+      left: 10px;
+      font-size: 13px;
+      color: #aaa;
+      pointer-events: none;
+    }
+
+    .light-theme .char-counter {
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      textarea {
+        height: 150px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .buttons button {
+        width: 100%;
+        margin: 5px 0;
+      }
+      .char-counter {
+       left: 80px;
+       }
+      .container {
+        max-width: 90%;
+      }
+  .second-logo {
+    display: none;
+  }
+    }
+
+    @media (max-width: 1200px) {
+      .logo-box {
+        height: 60px;
+        width: 60px;
+      }
+      .char-counter {
+       left: 80px;
+       }
+      .container {
+        max-width: 90%;
+      }
+  .second-logo {
+    display: none;
+  }
+    }
+
+    @media (max-width: 800px) {
+      .logo-box {
+        height: 50px;
+        width: 50px;
+      }
+      .char-counter {
+       left: 80px;
+       }
+      .container {
+        max-width: 90%;
+      }
+  .second-logo {
+    display: none;
+  }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="logo-box">
+  <img src="blackrook.png" alt="BlackRook Logo">
+</div>
+
+<a href="https://github.com/MathLogix/CryptaGuard" target="_blank" class="logo-box second-logo">
+  <img src="CryptaGuardLOGO.png" alt="CryptaGuard Logo">
+  <span class="logo-text">CryptaGuard</span>
+</a>
+
+<div class="theme-toggle">
+  <label class="switch">
+    <input type="checkbox" id="toggleTheme">
+    <span class="slider"></span>
+  </label>
+</div>
+
+<div class="container">
+  <div class="textarea-wrapper">
+    <h3>Plain Text</h3>
+    <span class="char-counter" id="plainCounter">0 chars</span>
+    <button class="copy-btn" onclick="copyText('plainText', this)">📋</button>
+    <span class="copied-tooltip">Copied!</span>
+    <textarea id="plainText" placeholder="Enter your text here..."></textarea>
+  </div>
+
+  <input id="password" type="password" placeholder="Password">
+
+  <div class="buttons">
+    <button onclick="encode()">Encode ↓</button>
+    <button onclick="decode()">Decode ↑</button>
+  </div>
+
+  <div class="textarea-wrapper">
+    <h3>Encrypted Text</h3>
+    <span class="char-counter" id="encryptedCounter">0 chars</span>
+    <button class="copy-btn" onclick="copyText('encryptedText', this)">📋</button>
+    <span class="copied-tooltip">Copied!</span>
+    <textarea id="encryptedText" placeholder="Encrypted text appears here..."></textarea>
+  </div>
+</div>
+
+<script>
+const FIXED_SALT = new TextEncoder().encode("BLACKROOK::STATIC::SALT::V1");
+const ITERATIONS = 100000;
+
+function bufferToBase64(buffer) {
+  return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+}
+
+function base64ToBuffer(base64) {
+  return Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+}
+
+async function deriveKey(password) {
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: FIXED_SALT,
+      iterations: ITERATIONS,
+      hash: "SHA-256"
+    },
+    baseKey,
+    {
+      name: "AES-GCM",
+      length: 256
+    },
+    false,
+    ["encrypt", "decrypt"]
+  );
+}
+
+async function encryptText(plainText, password) {
+  const key = await deriveKey(password);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encodedText = new TextEncoder().encode(plainText);
+
+  const cipherBuffer = await crypto.subtle.encrypt(
+    { name: "AES-GCM", iv },
+    key,
+    encodedText
+  );
+
+  const combined = new Uint8Array(iv.length + cipherBuffer.byteLength);
+  combined.set(iv, 0);
+  combined.set(new Uint8Array(cipherBuffer), iv.length);
+
+  return bufferToBase64(combined);
+}
+
+async function decryptText(encodedText, password) {
+  encodedText = encodedText.trim().replace(/^['"]|['"]$/g, "");
+
+  const data = base64ToBuffer(encodedText);
+  const iv = data.slice(0, 12);
+  const cipherText = data.slice(12);
+
+  const key = await deriveKey(password);
+
+  const plainBuffer = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv },
+    key,
+    cipherText
+  );
+
+  return new TextDecoder().decode(plainBuffer);
+}
+
+async function encode() {
+  const text = document.getElementById("plainText").value;
+  const pass = document.getElementById("password").value;
+
+  if (!text || !pass) {
+    alert("Enter text and password");
+    return;
+  }
+
+  document.getElementById("encryptedText").value = await encryptText(text, pass);
+  refreshEncryptedCounter();
+}
+
+async function decode() {
+  const text = document.getElementById("encryptedText").value;
+  const pass = document.getElementById("password").value;
+
+  if (!text || !pass) {
+    alert("Enter the encrypted text and password");
+    return;
+  }
+
+  try {
+    document.getElementById("plainText").value = await decryptText(text, pass);
+
+    refreshPlainCounter();
+  } catch {
+    alert("The password is incorrect or the text is not valid.");
+  }
+}
+
+function copyText(id, btn) {
+  const textarea = document.getElementById(id);
+  textarea.select();
+  textarea.setSelectionRange(0, 99999);
+
+  navigator.clipboard.writeText(textarea.value).then(() => {
+    const tooltip = btn.nextElementSibling;
+    tooltip.classList.add('show');
+    setTimeout(() => {
+      tooltip.classList.remove('show');
+    }, 2000);
+  });
+}
+
+document.getElementById("toggleTheme").addEventListener("change", function() {
+  if (this.checked) {
+    document.body.classList.add("light-theme");
+  } else {
+    document.body.classList.remove("light-theme");
+  }
+});
+
+function updateCounter(textareaId, counterId) {
+  const textarea = document.getElementById(textareaId);
+  const counter = document.getElementById(counterId);
+
+  const refresh = () => {
+    counter.textContent = textarea.value.length + " chars";
+  };
+
+  refresh();
+  textarea.addEventListener("input", refresh);
+
+  return refresh;
+}
+
+const refreshPlainCounter = updateCounter("plainText", "plainCounter");
+const refreshEncryptedCounter = updateCounter("encryptedText", "encryptedCounter");
+
+</script>
+
+<div class="footer-text">
+  <span class="tooltip-container">
+    Offline ✅
+    <span class="tooltip-text">
+      This site runs locally, so you only need to load it once in your browser.
+    </span>
+  </span>
+  <br>
+  <span class="tooltip-container">
+    Safe and Secure ✅
+    <span class="tooltip-text">
+      No data is sent to the server, so your text remains encrypted.
+    </span>
+  </span>
+</div>
+
+</body>
+</html>
