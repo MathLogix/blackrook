@@ -2,7 +2,9 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlackRook Text Encoder</title>
+  <link rel="icon" type="image/png" href="citelogo.png">
   <style>
     html, body {
       margin: 0;
@@ -140,10 +142,28 @@
       color: #000;
     }
 
+    .third-logo {
+      position: absolute;
+      top: 220px;
+      left: 7px;
+      height: 85px;
+      width: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .third-logo img {
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+      display: block;
+    }
+
     .theme-toggle {
       position: absolute;
       top: 20px;
-      right: 20px;
+      right: 40px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -172,6 +192,18 @@
       border-radius: 24px;
     }
 
+    .slider:hover {
+      box-shadow: 0 0 15px 20px #28235E;
+    }
+
+    .light-theme .slider {
+      background-color: #FECE00;
+    }
+
+    .light-theme .slider:hover {
+      box-shadow: 0 0 15px 20px #FECE00;
+    }
+
     .slider:before {
       position: absolute;
       content: "";
@@ -183,8 +215,12 @@
       background-image: url('Night.png');
             background-size: cover;
       background-position: center;
-      transition: 0.4s;
+      transition: 0.4s, box-shadow 0.4s;
       border-radius: 50%;
+    }
+
+    .slider:before:hover {
+      box-shadow: 0 0 10px 3px #fff;
     }
 
     .switch input:checked + .slider {
@@ -330,23 +366,66 @@
         height: 150px;
       }
 
+      .textarea-wrapper {
+        padding-top: 0px;
+      }
+
+    .copy-btn {
+      font-size: 13px;
+      right: -15px;
+      padding: 2px 4px;
+      border-radius: 3px;
+      opacity: 1;
+    }
+
       .buttons {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
+        gap: 12px;
       }
 
       .buttons button {
-        width: 100%;
-        margin: 5px 0;
+        width: auto;
+        flex: 0 0 auto;
       }
+
+      .theme-toggle {
+        top: 10px;
+        right: 10px;
+        transform: scale(0.85);
+      }
+
       .char-counter {
-       left: 80px;
-       }
-      .container {
-        max-width: 90%;
+        left: 10px;
+        right: auto;
+        font-size: 12px;
       }
-  .second-logo {
-    display: none;
-  }
+
+      .container {
+        padding: 0 14px;
+             max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      textarea,
+      input {
+        border-radius: 8px;
+            }
+
+      .logo-box {
+        top: 10px;
+        left: 10px;
+        height: 56px;
+        width: 56px;
+      }
+
+      .second-logo {
+        display: none;
+      }
+
+      .third-logo {
+        display: none;
+      }
     }
 
     @media (max-width: 1200px) {
@@ -354,13 +433,14 @@
         height: 60px;
         width: 60px;
       }
-      .char-counter {
-       left: 80px;
-       }
+
       .container {
         max-width: 90%;
       }
   .second-logo {
+    display: none;
+  }
+  .third-logo {
     display: none;
   }
     }
@@ -370,15 +450,113 @@
         height: 50px;
         width: 50px;
       }
-      .char-counter {
-       left: 80px;
-       }
+
       .container {
         max-width: 90%;
       }
   .second-logo {
     display: none;
   }
+  .third-logo {
+    display: none;
+  }
+    }
+
+    .icon-btn {
+      background: #858585;
+      border: none;
+      padding: 3px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+    }
+
+    .icon-btn img {
+      width: 30px;
+        height: 30px;
+      display: block;
+    }
+
+    .icon-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .lock-btn:hover {
+      background-color: #239F40;
+      box-shadow: 0 0 15px 5px #239F40;
+    }
+
+    .unlock-btn:hover {
+      background-color: #DA0000; 
+      box-shadow: 0 0 15px 5px #DA0000;
+    }
+
+    .light-theme .icon-btn {
+      background: #bbb;
+    }
+
+    .light-theme .lock-btn:hover {
+      background-color: #00E300;
+      box-shadow: 0 0 15px 5px #00E300;
+    }
+
+    .light-theme .unlock-btn:hover {
+      background-color: #ff0000;
+      box-shadow: 0 0 15px 5px #ff0000;
+    }
+
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 12px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 17px;
+      right: -15px;
+      transform: translateY(-50%);
+      background: transparent !important;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+
+      -webkit-tap-highlight-color: transparent;
+
+    }
+
+    .toggle-password img {
+      width: 40px;
+      height: 24px;
+      display: block;
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      pointer-events: auto;
+    }
+
+    .toggle-password:hover,
+    .toggle-password:focus,
+    .toggle-password:active {
+      background: transparent !important;
+      outline: none;
+      box-shadow: none;
+    }
+
+    .toggle-password:hover img,
+    .toggle-password:focus img,
+    .toggle-password:active img {
+      background: transparent;
+      opacity: 1;
     }
 
   </style>
@@ -393,6 +571,10 @@
   <img src="CryptaGuardLOGO.png" alt="CryptaGuard Logo">
   <span class="logo-text">CryptaGuard</span>
 </a>
+
+<div class="logo-box third-logo">
+  <img src="IranForever.png" alt="Flag Logo">
+</div>
 
 <div class="theme-toggle">
   <label class="switch">
@@ -410,11 +592,21 @@
     <textarea id="plainText" placeholder="Enter your text here..."></textarea>
   </div>
 
-  <input id="password" type="password" placeholder="Password">
+  <div class="password-wrapper">
+    <input id="password" type="password" placeholder="Password">
+    <button type="button" class="toggle-password" onclick="togglePassword()">
+      <img id="eyeIcon" alt="Toggle password">
+    </button>
+  </div>
 
   <div class="buttons">
-    <button onclick="encode()">Encode ↓</button>
-    <button onclick="decode()">Decode ↑</button>
+    <button onclick="encode()" class="icon-btn lock-btn">
+      <img src="lock.png" alt="Encrypt" />
+    </button>
+
+    <button onclick="decode()" class="icon-btn unlock-btn">
+      <img src="unlock.png" alt="Decrypt" />
+    </button>
   </div>
 
   <div class="textarea-wrapper">
@@ -551,6 +743,8 @@ document.getElementById("toggleTheme").addEventListener("change", function() {
   } else {
     document.body.classList.remove("light-theme");
   }
+
+  updateEyeIcon();
 });
 
 function updateCounter(textareaId, counterId) {
@@ -570,6 +764,53 @@ function updateCounter(textareaId, counterId) {
 const refreshPlainCounter = updateCounter("plainText", "plainCounter");
 const refreshEncryptedCounter = updateCounter("encryptedText", "encryptedCounter");
 
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eyeIcon");
+  const isLight = document.body.classList.contains("light-theme");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    eyeIcon.src = isLight
+      ? "dayopenedeye.png"
+      : "nightopenedeye.png";
+  } else {
+    passwordInput.type = "password";
+    eyeIcon.src = isLight
+      ? "dayclosedeye.png"
+      : "nightclosedeye.png";
+  }
+}
+
+function updateEyeIcon() {
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eyeIcon");
+  const isLight = document.body.classList.contains("light-theme");
+
+  const isOpen = passwordInput.type === "text";
+
+  if (isLight) {
+    eyeIcon.src = isOpen
+      ? "dayopenedeye.png"
+      : "dayclosedeye.png";
+  } else {
+    eyeIcon.src = isOpen
+      ? "nightopenedeye.png"
+      : "nightclosedeye.png";
+  }
+}
+
+</script>
+
+<script>
+  window.addEventListener("load", () => {
+    const eyeIcon = document.getElementById("eyeIcon");
+    const isLight = document.body.classList.contains("light-theme");
+
+    eyeIcon.src = isLight
+      ? "dayclosedeye.png"
+      : "nightclosedeye.png";
+  });
 </script>
 
 <div class="footer-text">
